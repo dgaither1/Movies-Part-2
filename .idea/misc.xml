@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="RTC.Settings">
+    <option name="historyRows" value="" />
+    <option name="onlyListMyWS" value="true" />
+    <option name="projectName" value="" />
+    <option name="repoPasswd" value="4ku6OyUX+SA7P5cJoAmawQ==" />
+    <option name="repoUri" value="https://rtc.usaa.com/ccm" />
+    <option name="repoUser" value="MLC9433" />
+    <option name="scmExe" value="/Applications/RTC-Jazz5.0.2/scmtools/eclipse/lscm" />
+    <option name="wsListLimit" value="50" />
+  </component>
+</project>
+

@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Movies</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="sort_popular">Sort by Most Popular</string>
+    <string name="sort_ratings">Sort by Highest Rated</string>
+    <string name="movie_details_key">movieDetails</string>
+
+    <string name="title_key">title</string>
+    <string name="poster_key">poster_path</string>
+    <string name="release_date_key">release_date</string>
+    <string name="overview_key">overview</string>
+    <string name="vote_average_key">vote_average</string>
+
+    <!-- Movies API Key -->
+    <string name="movies_api_key"></string>
+
+    <string name="base_image_url">http://image.tmdb.org/t/p/w500</string>
+    <string name="out_of_ten">/10</string>
+
+
+    <!-- Error Strings -->
+    <string name="poster_parse_error">Error - Could not parse out movie poster URL</string>
+    <string name="detail_parse_error">Error - Could not parse out movie detail data</string>
+    <string name="moviedb_parse_error">Error - Unable to parse MovieDB results</string>
+
+    <string name="movies_api_url">http://api.themoviedb.org/3/discover/movie</string>
+    <string name="sort_popular_desc">popularity.desc</string>
+    <string name="sort_ratings_desc">vote_average.desc</string>
+    <string name="call_in_progress_key">callInProgress</string>
+    <string name="sort_type_key">sortType</string>
+    <string name="sort_by_param">\?sort_by=</string>
+    <string name="vote_count_param"><![CDATA[&vote_count.gte=50]]></string>
+    <string name="api_key_param"><![CDATA[&api_key=]]></string>
+    <string name="results_key">results</string>
+
+</resources>
