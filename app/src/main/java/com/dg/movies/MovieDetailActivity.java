@@ -1,15 +1,19 @@
 package com.dg.movies;
 
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
+import android.view.Menu;
+import android.view.MenuItem;
 
 // Activity to display the movie details to the user
-public class MovieDetailActivity extends ActionBarActivity {
+public class MovieDetailActivity extends ActionBarActivity implements MovieDetailsFragment.MovieDetailCallback {
 
+    private MovieDetailsDO movieDetails;
+    private Intent sharingIntent;
+
+    // Load the detail fragment and send in the movie details
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,19 +21,47 @@ public class MovieDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_movie_detail);
 
         // Retrieve the detail data from the intent
-        MovieDetailsDO movieDetails = getIntent().getParcelableExtra(getString(R.string.movie_details_key));
+        movieDetails = getIntent().getParcelableExtra(getString(R.string.movie_details_key));
 
-        TextView title = (TextView) findViewById(R.id.title);
-        ImageView poster = (ImageView) findViewById(R.id.poster);
-        TextView voteAverage = (TextView) findViewById(R.id.vote_average);
-        TextView releaseDate = (TextView) findViewById(R.id.release_date);
-        TextView synopsis = (TextView) findViewById(R.id.synopsis);
+        MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.newInstance(movieDetails);
 
-        // Load the detail data into the views
-        title.setText(movieDetails.getTitle());
-        Picasso.with(this).load(movieDetails.getPosterPath()).placeholder(R.drawable.movie_poster_placeholder).error(R.drawable.movie_poster_not_available).into(poster);
-        voteAverage.setText(movieDetails.getVoteAverage() + getString(R.string.out_of_ten));
-        releaseDate.setText(movieDetails.getReleaseDate());
-        synopsis.setText(movieDetails.getSynopsis());
+        FragmentTransaction addMovieDetailsFragment = getFragmentManager().beginTransaction();
+        addMovieDetailsFragment.add(R.id.movie_details_container, movieDetailsFragment).commit();
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Add action bar items
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Action bar sorting items.  Kick off a new retrieve call when selected.  updateDetailFragment(null) is called to reset the detail page if we are on tablet
+        int id = item.getItemId();
+
+        if(id == R.id.share_action) {
+            launchShare();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void launchShare() {
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_chooser)));
+    }
+
+    @Override
+    public void updateShareIntent(String youtubeURL) {
+        sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType(getString(R.string.share_type));
+        String shareBody = getString(R.string.share_body) + youtubeURL;
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
     }
 }

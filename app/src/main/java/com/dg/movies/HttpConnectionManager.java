@@ -13,15 +13,16 @@ import java.net.URL;
 // Class to manage HTTP requests
 public class HttpConnectionManager {
 
-    private static HttpConnectionDelegate delegate;
+    private HttpConnectionDelegate delegate;
 
     // Set the delegate who will receive call backs
-    public static void setDelegate(HttpConnectionDelegate caller) {
+    public void setDelegate(HttpConnectionDelegate caller) {
         delegate = caller;
     }
 
+
     // Perform an HTTP Get request
-    public static void performGet(String urlString) {
+    public void performGet(String urlString) {
 
         if(delegate != null) {
             AsyncTask task = new AsyncTask() {

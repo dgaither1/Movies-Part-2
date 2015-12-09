@@ -16,4 +16,12 @@
     <dimen name="vote_average_text_size">16sp</dimen>
     <dimen name="synopsis_text_size">14sp</dimen>
     <dimen name="synopsis_margin">15dp</dimen>
+    <dimen name="synopsis_margin_bottom">8dp</dimen>
+    <dimen name="play_button_margin">10dp</dimen>
+    <dimen name="trailer_number_font_size">14sp</dimen>
+    <dimen name="trailer_row_height">80dp</dimen>
+    <dimen name="reviewer_name_font_size">12sp</dimen>
+    <dimen name="review_margin">15dp</dimen>
+    <dimen name="review_font_size">11sp</dimen>
+    <dimen name="favorite_button_size">90dp</dimen>
 </resources>

@@ -4,6 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="sort_popular">Sort by Most Popular</string>
     <string name="sort_ratings">Sort by Highest Rated</string>
+    <string name="show_favorites">Show Favorites</string>
     <string name="movie_details_key">movieDetails</string>
 
     <string name="title_key">title</string>
@@ -23,7 +24,10 @@
     <string name="poster_parse_error">Error - Could not parse out movie poster URL</string>
     <string name="detail_parse_error">Error - Could not parse out movie detail data</string>
     <string name="moviedb_parse_error">Error - Unable to parse MovieDB results</string>
+    <string name="showing_favorites">Not able to connect to the service. Showing your favorites</string>
+    <string name="wrong_activity_attached">Activity must implement fragment\'s callbacks.</string>
 
+    <!-- Get Movies Call Strings -->
     <string name="movies_api_url">http://api.themoviedb.org/3/discover/movie</string>
     <string name="sort_popular_desc">popularity.desc</string>
     <string name="sort_ratings_desc">vote_average.desc</string>
@@ -33,5 +37,27 @@
     <string name="vote_count_param"><![CDATA[&vote_count.gte=50]]></string>
     <string name="api_key_param"><![CDATA[&api_key=]]></string>
     <string name="results_key">results</string>
+
+    <!-- Get Details Strings -->
+    <string name="nondiscover_api_url">http://api.themoviedb.org/3/movie/</string>
+    <string name="videos_url">/videos</string>
+    <string name="reviews_url">/reviews</string>
+
+    <string name="remove_from_favorites">Remove from Favorites</string>
+    <string name="add_to_favorites">Add to Favorites</string>
+
+    <string name="author_json_key">author</string>
+    <string name="content_json_key">content</string>
+    <string name="results_json_key">results</string>
+    <string name="youtube_prefix">http://www.youtube.com/watch?v=</string>
+    <string name="video_id_key">VIDEO_ID</string>
+    <string name="youtube_uri_prefix">vnd.youtube:</string>
+    <string name="trailer_key_json_key">key</string>
+
+    <string name="share_action">Share</string>
+    <string name="share_body">"Check out this movie trailer! "</string>
+    <string name="share_subject">Movie Trailer</string>
+    <string name="share_chooser">Share via</string>
+    <string name="share_type">text/plain</string>
 
 </resources>

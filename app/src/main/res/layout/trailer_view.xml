@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/trailer_row_height">
+
+    <ImageView
+        android:id="@+id/play_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@android:drawable/ic_media_play"
+        android:layout_margin="@dimen/play_button_margin"/>
+
+    <TextView
+        android:id="@+id/trailer_number_field"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/play_button"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/trailer_number_font_size"/>
+
+</RelativeLayout>
