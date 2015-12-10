@@ -14,7 +14,7 @@
     <string name="vote_average_key">vote_average</string>
 
     <!-- Movies API Key -->
-    <string name="movies_api_key">bed5d4e21f5a09a9934cb9988cd7bd94</string>
+    <string name="movies_api_key"></string>
 
     <string name="base_image_url">http://image.tmdb.org/t/p/w500</string>
     <string name="out_of_ten">/10</string>
