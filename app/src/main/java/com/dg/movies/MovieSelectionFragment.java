@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 
 // Main Movie Activity that will show a grid of movie posters that the user can select
@@ -23,11 +21,18 @@ public class MovieSelectionFragment extends Fragment {
     private ProgressBar progressBar;
     private RecyclerView grid;
     private MovieSelectionCallback callBackListener;
-
+    private ArrayList<MovieDetailsDO> movies;
+    private boolean twoPane = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null)
+        {
+            movies = (ArrayList<MovieDetailsDO>)savedInstanceState.get("movies");
+            twoPane = savedInstanceState.getBoolean("twoPane");
+        }
     }
 
 
@@ -50,7 +55,11 @@ public class MovieSelectionFragment extends Fragment {
 
         grid.addItemDecoration(new MovieGridItemDecoration(1));
 
-        retrieveMovies();
+        if(movies == null) {
+            retrieveMovies();
+        } else {
+            updateRecyclerView(movies, twoPane);
+        }
 
         return movieSelectionLayout;
     }
@@ -77,20 +86,25 @@ public class MovieSelectionFragment extends Fragment {
     }
 
     //  Call to update the state of the recycler view
-    public void updateRecyclerView(JSONArray movies, boolean twoPane) {
-        grid.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-        grid.setAdapter(new MovieGridAdapter(movies, twoPane, getActivity()));
-    }
-
-    //  Call to update the state of the recycler view
     public void updateRecyclerView(ArrayList<MovieDetailsDO> movies, boolean twoPane) {
         grid.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         grid.setAdapter(new MovieGridAdapter(movies, twoPane, getActivity()));
+        this.movies = movies;
+        this.twoPane = twoPane;
     }
 
     public interface MovieSelectionCallback {
         public void retrieveMovies();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(movies != null) {
+            outState.putParcelableArrayList("movies", movies);
+            outState.putBoolean("twoPane", twoPane);
+        }
     }
 }

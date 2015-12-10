@@ -1,6 +1,5 @@
 package com.dg.movies;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -36,6 +35,12 @@ public class MovieSelectionActivity extends ActionBarActivity implements HttpCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(savedInstanceState != null) {
+            //Restore the fragment's instance
+            movieSelectionFragment = (MovieSelectionFragment) getFragmentManager().getFragment(savedInstanceState, "selection");
+            movieDetailsFragment = (MovieDetailsFragment) getFragmentManager().getFragment(savedInstanceState, "details");
+        }
+
         // Setup our delegate callbacks for the Favorites database and the http connection manager
         FavoritesDBHelper.setContext(this);
         httpConnectionManager.setDelegate(this);
@@ -44,17 +49,23 @@ public class MovieSelectionActivity extends ActionBarActivity implements HttpCon
         sortType = getString(R.string.sort_popular_desc);
 
         // Add the first fragment that contains the grid of movies to select from
-        movieSelectionFragment = new MovieSelectionFragment();
-        FragmentTransaction addMovieSelectionFragment = getFragmentManager().beginTransaction();
-        addMovieSelectionFragment.add(R.id.movie_selection_container, movieSelectionFragment).commit();
+        if(movieSelectionFragment == null) {
+            movieSelectionFragment = new MovieSelectionFragment();
+
+            getFragmentManager().beginTransaction().add(R.id.movie_selection_container, movieSelectionFragment).commit();
+        }
 
         //  If we are on a tablet, enter two pane mode
         if (findViewById(R.id.movie_detail_container) != null) {
             twoPane = true;
 
             // Load the details fragment on the right side of the layout
-            movieDetailsFragment = new MovieDetailsFragment();
-            getFragmentManager().beginTransaction().add(R.id.movie_detail_container, movieDetailsFragment).commit();
+            if(movieDetailsFragment == null) {
+                movieDetailsFragment = new MovieDetailsFragment();
+
+                getFragmentManager().beginTransaction().add(R.id.movie_detail_container, movieDetailsFragment).commit();
+            }
+
         }
     }
 
@@ -131,16 +142,35 @@ public class MovieSelectionActivity extends ActionBarActivity implements HttpCon
     private void parseMovieResponse(String responseJson) {
 
         JSONArray movies = null;
+        ArrayList<MovieDetailsDO> moviesArrayList = new ArrayList<MovieDetailsDO>();
 
         try {
             JSONObject parser = new JSONObject(responseJson);
             movies = parser.getJSONArray(getString(R.string.results_key));
 
+
+            if (movies != null) {
+                for (int i=0;i<movies.length();i++){
+
+                    MovieDetailsDO movie = new MovieDetailsDO();
+                    JSONObject individualMovie = movies.getJSONObject(i);
+
+                    movie.setTitle(individualMovie.getString(getString(R.string.title_key)));
+                    movie.setPosterPath(getString(R.string.base_image_url) + individualMovie.getString(getString(R.string.poster_key)));
+                    movie.setReleaseDate(individualMovie.getString(getString(R.string.release_date_key)));
+                    movie.setSynopsis(individualMovie.getString(getString(R.string.overview_key)));
+                    movie.setVoteAverage(individualMovie.getDouble(getString(R.string.vote_average_key)));
+                    movie.setMovieID(individualMovie.getInt("id"));
+
+                    moviesArrayList.add(movie);
+                }
+            }
+
         } catch(JSONException e) {
             Log.e(MovieSelectionFragment.class.getName(), getString(R.string.moviedb_parse_error));
         }
 
-        movieSelectionFragment.updateRecyclerView(movies, twoPane);
+        movieSelectionFragment.updateRecyclerView(moviesArrayList, twoPane);
     }
 
     public void updateDetailFragment(MovieDetailsDO movie) {
@@ -175,5 +205,17 @@ public class MovieSelectionActivity extends ActionBarActivity implements HttpCon
         String shareBody = getString(R.string.share_body) + youtubeURL;
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(movieSelectionFragment != null && movieSelectionFragment.isAdded()) {
+            getFragmentManager().putFragment(outState, "selection", movieSelectionFragment);
+        }
+        if(movieDetailsFragment != null && movieDetailsFragment.isAdded()) {
+            getFragmentManager().putFragment(outState, "details", movieDetailsFragment);
+        }
     }
 }

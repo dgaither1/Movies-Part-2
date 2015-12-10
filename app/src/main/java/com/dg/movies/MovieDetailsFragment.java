@@ -71,6 +71,9 @@ public class MovieDetailsFragment extends Fragment implements HttpConnectionMana
         if(getArguments() != null) {
             movie = getArguments().getParcelable(MOVIE_BUNDLE_KEY);
         }
+        if(savedInstanceState != null) {
+            movie = savedInstanceState.getParcelable(MOVIE_BUNDLE_KEY);
+        }
     }
 
 
@@ -214,6 +217,7 @@ public class MovieDetailsFragment extends Fragment implements HttpConnectionMana
 
             if(trailers != null && trailers.length() > 0) {
                 this.trailers = trailers;
+
             }
 
         } catch(JSONException e) {
@@ -394,5 +398,15 @@ public class MovieDetailsFragment extends Fragment implements HttpConnectionMana
 
     public interface MovieDetailCallback {
         public void updateShareIntent(String youtubeURL);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(movie != null) {
+            outState.putParcelable(MOVIE_BUNDLE_KEY, movie);
+        }
+
     }
 }

@@ -1,6 +1,5 @@
 package com.dg.movies;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +11,7 @@ public class MovieDetailActivity extends ActionBarActivity implements MovieDetai
 
     private MovieDetailsDO movieDetails;
     private Intent sharingIntent;
+    private MovieDetailsFragment movieDetailsFragment;
 
     // Load the detail fragment and send in the movie details
     @Override
@@ -23,10 +23,13 @@ public class MovieDetailActivity extends ActionBarActivity implements MovieDetai
         // Retrieve the detail data from the intent
         movieDetails = getIntent().getParcelableExtra(getString(R.string.movie_details_key));
 
-        MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.newInstance(movieDetails);
+        if(savedInstanceState != null) {
+            movieDetailsFragment = (MovieDetailsFragment) getFragmentManager().getFragment(savedInstanceState, "details");
+        } else {
+            movieDetailsFragment = MovieDetailsFragment.newInstance(movieDetails);
 
-        FragmentTransaction addMovieDetailsFragment = getFragmentManager().beginTransaction();
-        addMovieDetailsFragment.add(R.id.movie_details_container, movieDetailsFragment).commit();
+            getFragmentManager().beginTransaction().add(R.id.movie_details_container, movieDetailsFragment).commit();
+        }
 
     }
 
@@ -63,5 +66,15 @@ public class MovieDetailActivity extends ActionBarActivity implements MovieDetai
         String shareBody = getString(R.string.share_body) + youtubeURL;
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(movieDetailsFragment != null && movieDetailsFragment.isAdded()) {
+            getFragmentManager().putFragment(outState, "details", movieDetailsFragment);
+        }
     }
 }
